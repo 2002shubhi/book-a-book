@@ -1,0 +1,247 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+void main() => runApp(MaterialApp(
+  home: UploadImage(),
+));
+class UploadImage extends StatefulWidget {
+  const UploadImage({Key key}) : super(key: key);
+
+  @override
+  _UploadImageState createState() => _UploadImageState();
+}
+
+class _UploadImageState extends State<UploadImage> {
+  PickedFile _imageFile;
+  final _globalkey = GlobalKey<FormState>();
+  TextEditingController _name = TextEditingController();
+  TextEditingController _price = TextEditingController();
+  final ImagePicker _picker = ImagePicker();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+
+      body: Form(
+        key: _globalkey,
+        child: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+          children: <Widget>[
+            imageProfile(),
+            SizedBox(
+              height: 20,
+            ),
+            nameTextField(),
+            SizedBox(
+              height: 20,
+            ),
+            priceTextField(),
+            SizedBox(
+              height: 20,
+            ),
+            aboutTextField(),
+            SizedBox(
+              height: 20,
+            ),
+            InkWell(
+              onTap: () {
+                if (_globalkey.currentState.validate()) {
+                  print("validated");
+                }
+
+
+
+                Center(
+                  child: Container(
+                    width: 200,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.teal,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Submit",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget imageProfile() {
+    return Center(
+      child: Stack(children: <Widget>[
+        CircleAvatar(
+
+          radius: 80.0,
+          backgroundImage: _imageFile == null
+              ? AssetImage("assets/images/circle.png")
+              : FileImage(File(_imageFile.path)),
+        ),
+        Positioned(
+          bottom: 20.0,
+          right: 20.0,
+          child: InkWell(
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                builder: ((builder) => bottomSheet()),
+              );
+            },
+            child: Icon(
+              Icons.camera_alt,
+              color: Colors.blue,
+              size: 28.0,
+            ),
+          ),
+        ),
+      ]),
+    );
+  }
+
+  Widget bottomSheet() {
+    return Container(
+      height: 100.0,
+      width: MediaQuery.of(context).size.width,
+      margin: EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 20,
+      ),
+      child: Column(
+        children: <Widget>[
+          Text(
+            "Choose Image of Book",
+            style: TextStyle(
+              fontSize: 20.0,
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+            TextButton.icon(
+              icon: Icon(Icons.camera),
+              onPressed: () {
+                takePhoto(ImageSource.camera);
+              },
+              label: Text("Camera"),
+            ),
+            TextButton.icon(
+              icon: Icon(Icons.image),
+              onPressed: () {
+                takePhoto(ImageSource.gallery);
+              },
+              label: Text("Gallery"),
+
+            ),
+          ])
+        ],
+      ),
+    );
+  }
+
+  void takePhoto(ImageSource source) async {
+    final pickedFile = await _picker.getImage(
+      source: source,
+    );
+    setState(() {
+      _imageFile = pickedFile;
+    });
+  }
+
+  Widget nameTextField() {
+    return TextFormField(
+      controller: _name,
+      validator: (value) {
+        if (value.isEmpty) return "Title can't be empty";
+
+        return null;
+      },
+      decoration: InputDecoration(
+        border: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.orange,
+            )),
+        focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.teal,
+              width: 2,
+            )),
+        prefixIcon: Icon(
+          Icons.book,
+          color: Colors.green,
+        ),
+        labelText: "Title of the Book",
+        helperText: "Title can't be empty",
+        hintText: "eg The Kite Runner",
+      ),
+    );
+  }
+
+  Widget priceTextField() {
+    return TextFormField(
+      controller: _price,
+      validator: (value) {
+        if (value.isEmpty) return "Price can't be empty";
+
+        return null;
+      },
+
+      decoration: InputDecoration(
+        border: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.orange,
+            )),
+        focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.teal,
+              width: 2,
+            )),
+        prefixIcon: Icon(
+          Icons.money_rounded,
+          color: Colors.green,
+        ),
+        labelText: "Rs",
+        helperText: "Price can't be empty",
+        hintText: "Enter your price",
+      ),
+    );
+  }
+
+
+  Widget aboutTextField() {
+    return TextFormField(
+      maxLines: 3,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.orange,
+            )),
+        focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.teal,
+              width: 2,
+            )),
+        prefixIcon: Icon(
+          Icons.description,
+          color: Colors.green,
+        ),
+        labelText: "About",
+        hintText: "You can include the name of the author, the condition of the book and so on",
+      ),
+    );
+  }
+
+}
