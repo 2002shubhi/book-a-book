@@ -1,5 +1,6 @@
 import 'package:catalog_app/screens/home_page.dart';
 import 'package:catalog_app/screens/login_page.dart';
+import 'package:catalog_app/screens/upload2.dart';
 import 'package:catalog_app/utils/routes.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
 
       initialRoute: "/",
       routes: {
-        "/": (context) => LoginPage(),
+        "/": (context) => UploadImage(),
         MyRoutes.homeRoute:(context)=>Homepage(),
         MyRoutes.loginRoute:(context)=>LoginPage(),
 
