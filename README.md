@@ -1,3 +1,6 @@
+## Book-a-Book
+Book Reselling app
+
 ## About the project:
 Our team decided to design a book exchange/reselling app for fellow bibliophiles to help easy exchange of books and bond over our love for authors and literature. We included features like a chat screen for direct and seamless conversation between buyers and sellers and firebase google sign-in for authentication. Sellers can upload images of their book from their gallery and other relevant details such as the title, price and a brief description of the book on the ads sell page. Meanwhile users are greeted with an animated splash screen on opening the app, after which they can see a list of the trending products on the home page and contact the sellers to discuss the deal. Our target demographic was avid book readers who were interested in buying books for cheaper prices, students who could sell their books after passing a specific grade and students of lower grades who could contact them for these course books. We had a lot of fun coming up with the design of the app and learned quite a lot along the way!
 
